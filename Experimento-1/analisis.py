@@ -494,3 +494,97 @@ plot_all({
     'Pozo finito (Oxo-cianinas)': run_fsw_fit('Oxo'),
     'Pozo finito (Tia-cianinas)': run_fsw_fit('Tia'),
 }, y_range=(400, 800), save='Experimento-1/output/all_models.jpeg')
+
+
+# Error porcentual entre lambda experimental y lambda teórica
+
+for serie, datos in [('Oxo', datos_OXO), ('Tia', datos_TIO)]:
+    print(f'\n{serie}-cianinas')
+
+    modelo = run_fsw_fit(serie)
+
+    for dato in datos:
+        p = dato['p']
+        lam_exp = dato['lam_exp']
+        lam_teo = modelo[p].n if hasattr(modelo[p], 'n') else modelo[p]
+
+        error_porcentual = abs(lam_teo - lam_exp) / lam_exp * 100
+
+        print(
+            f'p = {p}: '
+            f'λ_exp = {lam_exp:.2f} nm, '
+            f'λ_teo = {lam_teo:.2f} nm, '
+            f'error = {error_porcentual:.2f} %'
+        )
+
+# Distancia en sigmas entre lambda experimental y lambda teórica
+
+for serie, datos in [('Oxo', datos_OXO), ('Tia', datos_TIO)]:
+    print(f'\n{serie}-cianinas')
+
+    modelo = run_fsw_fit(serie)
+
+    for dato in datos:
+        p = dato['p']
+
+        lam_exp = dato['lam_exp']
+        sigma_exp = dato['err']
+
+        # Valor teórico y su incertidumbre
+        lam_teo = modelo[p].n
+        sigma_teo = modelo[p].std_dev
+
+        # Distancia en sigmas
+        n_sigma = abs(lam_teo - lam_exp) / np.sqrt(
+            sigma_exp**2 + sigma_teo**2
+        )
+
+        print(
+            f'p = {p}: '
+            f'λ_exp = {lam_exp:.2f} ± {sigma_exp:.2f} nm, '
+            f'λ_teo = {lam_teo:.2f} ± {sigma_teo:.2f} nm, '
+            f'Δ = {n_sigma:.2f} σ'
+        )
+
+# Guardar comparación experimental vs teórica en un archivo .txt
+
+ruta_txt = 'Experimento-1/output/comparacion_lambdas.txt'
+
+with open(ruta_txt, 'w', encoding='utf-8') as f:
+    for serie, datos in [('Oxo', datos_OXO), ('Tia', datos_TIO)]:
+        f.write(f'{serie}-cianinas\n')
+        f.write('=' * 50 + '\n')
+
+        modelo = run_fsw_fit(serie)
+
+        for dato in datos:
+            p = dato['p']
+
+            lam_exp = dato['lam_exp']
+            sigma_exp = dato['err']
+
+            lam_teo = modelo[p].n
+            sigma_teo = modelo[p].std_dev
+
+            # Error porcentual
+            error_porcentual = (
+                abs(lam_teo - lam_exp) / lam_exp * 100
+            )
+
+            # Distancia en sigmas
+            n_sigma = abs(lam_teo - lam_exp) / np.sqrt(
+                sigma_exp**2 + sigma_teo**2
+            )
+
+            f.write(
+                f'p = {p}\n'
+                f'  λ experimental = {lam_exp:.2f} ± {sigma_exp:.2f} nm\n'
+                f'  λ teórica      = {lam_teo:.2f} ± {sigma_teo:.2f} nm\n'
+                f'  Error porcentual = {error_porcentual:.2f} %\n'
+                f'  Distancia       = {n_sigma:.2f} σ\n'
+                f'\n'
+            )
+
+        f.write('\n')
+
+print(f'Comparación guardada en: {ruta_txt}')

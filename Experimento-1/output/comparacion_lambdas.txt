@@ -1,0 +1,42 @@
+Oxo-cianinas
+==================================================
+p = 5
+  λ experimental = 486.56 ± 0.02 nm
+  λ teórica      = 474.18 ± 1.21 nm
+  Error porcentual = 2.54 %
+  Distancia       = 10.22 σ
+
+p = 7
+  λ experimental = 584.31 ± 0.03 nm
+  λ teórica      = 586.16 ± 1.31 nm
+  Error porcentual = 0.32 %
+  Distancia       = 1.41 σ
+
+p = 9
+  λ experimental = 688.23 ± 0.03 nm
+  λ teórica      = 700.78 ± 1.45 nm
+  Error porcentual = 1.82 %
+  Distancia       = 8.64 σ
+
+
+Tia-cianinas
+==================================================
+p = 5
+  λ experimental = 559.76 ± 0.05 nm
+  λ teórica      = 558.80 ± 1.04 nm
+  Error porcentual = 0.17 %
+  Distancia       = 0.92 σ
+
+p = 7
+  λ experimental = 655.27 ± 0.02 nm
+  λ teórica      = 655.29 ± 0.88 nm
+  Error porcentual = 0.00 %
+  Distancia       = 0.02 σ
+
+p = 9
+  λ experimental = 761.63 ± 0.02 nm
+  λ teórica      = 763.20 ± 0.88 nm
+  Error porcentual = 0.21 %
+  Distancia       = 1.79 σ
+
+
